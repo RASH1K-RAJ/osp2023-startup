@@ -1,0 +1,8 @@
+1. Remember to Check Valgrind on the files you made
+2. Remember to Check on the server
+3. Ask do we have to make sure that the command line arguments we get are the correct format?
+4.Remember to create deconstructors for the classes.
+5. So if no of threads given is 25 does that mean 25 reader and 25 writer.
+
+6.Suppose the queue ends and the file isn't empty then do you use conditional
+variable out there to wait till the file is empty and the queue is full.
