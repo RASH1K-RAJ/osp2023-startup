@@ -2,23 +2,26 @@
  * startup code provided by Paul Miller for COSC1114 - Operating Systems
  * Principles
  **/
-#include "writer.h"
+#ifndef READER
+#define READER
+
+#include "Writer.h"
 #include <fstream>
 #include <iostream>
 #include <string>
-#ifndef READER
-#define READER
-class reader {
+class Reader {
    public:
     /* create a reader that reads each line of the file and appends it to the
      * writer's queue
      */
-    reader(const std::string& name, writer& mywriter);
+    Reader(const std::string& inFilePath, Writer& writer);
+
     /* perform the reading from the file */
     void run();
 
    private:
+    std::string inPath;
     std::ifstream in;
-    writer& thewriter;
+    Writer& thewriter;
 };
 #endif

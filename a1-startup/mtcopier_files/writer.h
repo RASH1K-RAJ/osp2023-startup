@@ -2,14 +2,17 @@
  * startup code provided by Paul Miller for COSC1114 - Operating Systems
  * Principles
  **/
-#include <pthread.h>
+#ifndef WRITER
+#define WRITER
 
+#include <pthread.h>
 #include <deque>
 #include <fstream>
 #include <iostream>
 #include <string>
-#ifndef WRITER
-#define WRITER
+
+class reader;
+
 class writer {
    public:
     /**
@@ -20,12 +23,20 @@ class writer {
      * needs to be static. You can pass in instances into the function as
      * pointers though.
      **/
-    static void init(const std::string& name);
+    writer(int NUM_THREADS, std::string outFile);
+    ~writer();
+    static void init(const std::string& outFile);
     static void* runner(void*);
-    void run();
+    pthread_t*  run();
     static void append(const std::string& line);
+    static void setLock(pthread_mutex_t* uniLock);
+    static void closeFile();
+    static bool isQueueEmpty();
 
    private:
+    static pthread_mutex_t* lock;
+    int NUM_THREADS;
+    const std::string outFile;
     static std::ofstream out;
     static std::deque<std::string> queue;
 };

@@ -2,13 +2,16 @@
  * startup code provided by Paul Miller for COSC1114 - Operating Systems
  * Principles
  **/
-#include <pthread.h>
+#ifndef READER
+#define READER
 
+#include <pthread.h>
 #include <fstream>
 #include <iostream>
 #include <string>
-#ifndef READER
-#define READER
+
+class writer;
+
 class reader {
    public:
     /* this class has a bunch of static (which means shared in a class)
@@ -17,11 +20,15 @@ class reader {
      * readers, etc.
      **/
 
+    /**Constructor*/
+    reader(int NUM_THREADS, std::string inFile);
+    ~reader();
+
     /** initialize the shared data for the class - for example, open the
      * file. There will be other things which you will need to figure out
      * as you complete the assignment.
      **/
-    static void init(const std::string& name);
+    static void init(const std::string& inFile);
 
     /**
      * the method that implements the thread. It has to be static as the first
@@ -33,15 +40,19 @@ class reader {
     /**
      * does the setup for and launches the threads
      **/
-    void run();
+    pthread_t* run();
     /**
      * there may be other functions you need so declare them.
      **/
+    static void isFileEmpty(std::string* line, bool& cond);
+    static void setLock(pthread_mutex_t* uniLock);
+    static void closeFile();
+    static bool getFileStatus();
 
    private:
     static std::ifstream in;
-    /**
-     * There may be other private instance data you need so declare those here.
-     **/
+    int NUM_THREADS;
+    const std::string inFile;
+    static pthread_mutex_t* lock;
 };
 #endif
