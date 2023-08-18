@@ -6,3 +6,8 @@
 
 6.Suppose the queue ends and the file isn't empty then do you use conditional
 variable out there to wait till the file is empty and the queue is full.
+
+
+--Valgrind---
+$valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all
+./mtcopier 100 ~e70949/shared/osp2023/data.512m /tmp/e70949output
